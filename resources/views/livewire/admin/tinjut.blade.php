@@ -304,6 +304,14 @@
                                     <p style="white-space:pre-wrap; word-wrap:break-word">Uraian: <br>{{$tt->uraian }} </p>
                                     <p style="white-space:pre-wrap; word-wrap:break-word">Keterangan: <br>{{$tt->keterangan }} </p>
                                     <p style="white-space:pre-wrap; word-wrap:break-word">Catatan: <br>{{$tt->catatan }} </p>
+                                    <p>File:
+                                    @forelse($tt->file as $f)
+                                        <br/>
+                                        <a href={{$f->file}} target="_blank">{{ $f->name }}</a>
+                                    @empty
+                                        -
+                                    @endforelse
+                                    </p>
                                 </div>
                             </div>
                         </div>

@@ -17,8 +17,8 @@ class CreateDataTinjutsTable extends Migration
             $table->id();
             $table->foreignId('tinjut')->constraint('temuan_tinjuts');
             $table->longText('uraian');
-            $table->longText('keterangan')->nulllable();
-            $table->longText('catatan')->nulllable();
+            $table->longText('keterangan')->nullable();
+            $table->longText('catatan')->nullable();
             $table->foreignId('created_by')->constraint('users');
             $table->timestamps();
         });

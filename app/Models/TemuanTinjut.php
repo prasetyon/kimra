@@ -54,6 +54,6 @@ class TemuanTinjut extends Model
 
     public function data()
     {
-        return $this->hasMany(DataTinjut::class, 'tinjut');
+        return $this->hasMany(DataTinjut::class, 'tinjut')->orderBy('id', 'desc');
     }
 }

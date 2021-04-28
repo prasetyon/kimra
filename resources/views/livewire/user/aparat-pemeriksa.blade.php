@@ -50,29 +50,156 @@
         </div>
     </div>
 @else
+<div class="center-y relative text-center">
+    <div class="container mt-80">
+        <div class="row">
+            <div class="col text-center" style="display: table-cell; vertical-align: middle;">
+                <div class="spacer-single"></div>
+                <h1>Monitoring Tindak Lanjut Aparat Pemeriksa
+                    <div style="display: block;">
+                    @if(Auth::check())
+                        @if($isOpen || $isOpenModal)
+                        <button wire:click="close()" class="btn btn-secondary" style="margin: 0 auto">
+                            Lihat Data Tindak Lanjut
+                        </button>
+                        @endif
+                        @if($isOpen)
+                        <button wire:click="openModal()" class="btn btn-primary" style="margin: 0 auto">
+                            Update Data Tindak Lanjut
+                        </button>
+                        @endif
+                    @else
+                    <button type="button" class="btn btn-secondary" style="margin: 0 auto"
+                        data-toggle="modal" data-target="#loginModal">Login untuk mengajukan permohononan</button>
+                    @endif
+                    </div>
+                </h1>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
 <div class="container" style="margin-bottom: 50px">
+    @if(!$isOpen)
     <div class="card">
         <div class="card-header">
             <div class="row">
-                {{-- <div class="col-6">
-                    <p style="font-size: 24px;">@if(!$openSubmit) Data Perkara Anda @else Registrasi Perkara Baru @endif</p>
+                <div class="col-6">
+                    <p style="font-size: 24px;">Data Pemeriksaan Anda</p>
                 </div>
-                @if(!$openSubmit)
+                @if(!$isOpen && !$isOpenModal)
                 <div class="col-6">
                     <input type="text" wire:model="searchTerm" placeholder="Search Something..." class="form-control">
                 </div>
-                @endif --}}
+                @endif
             </div>
         </div>
         <div class="card-body">
-            @if($isOpen)
-            <div class="row">
-                <div class="col-lg-2">
-                    <h3>List Temuan</h3>
-                    @foreach ($lists as $l)
-                    <p>{{$l->tahun.'-'.$l->nomor_temuan.'-'.$l->kode_rekomendasi}}</p>
-                    @endforeach
+            @if($isOpenModal)
+            <form wire:submit.prevent="store()">
+                <div class="row">
+                    <div class="form-group col-lg-6 col-sm-12">
+                        <label class="font-weight-bold">Uraian Tindak Lanjut</label>
+                        <textarea wire:model="tinjut" class="form-control @error('tinjut') is-invalid @enderror" rows="5"></textarea>
+                        @error('tinjut')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                    </div>
+                    <div class="form-group col-lg-6 col-sm-12">
+                        <label class="font-weight-bold">Keterangan Tindak Lanjut</label>
+                        <textarea wire:model="keterangan" class="form-control @error('keterangan') is-invalid @enderror" rows="5"></textarea>
+                        @error('keterangan')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                    </div>
+                    <div class="form-group col-lg-6 col-sm-12">
+                        <label class="font-weight-bold">Catatan Tindak Lanjut</label>
+                        <textarea wire:model="catatan" class="form-control @error('catatan') is-invalid @enderror" rows="5"></textarea>
+                        @error('catatan')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                    </div>
+                    <div class="form-group col-lg-6 col-sm-12">
+                        <label class="font-weight-bold">File Pendukung</label><br/>
+                        <input type="file" wire:model="photos" multiple>
+                        @error('photos.*') <span class="error">{{ $message }}</span> @enderror
+                    </div>
+                    <div class="form-group col-lg-12 text-center">
+                        <button type="button" wire:click.prevent="store()" class="btn btn-success">Buat Update Tindak Lanjut</button>
+                    </div>
                 </div>
+            </form>
+            @else
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered table-hover">
+                    <thead class="text-center" >
+                        {{-- <th>No</th> --}}
+                        <th style="border: 1px solid black" class="text-left">ID Temuan</th>
+                        <th style="border: 1px solid black" class="text-left">Judul</th>
+                        <th style="border: 1px solid black" class="text-left">Uraian Rekomendasi</th>
+                        {{-- <th style="border: 1px solid black" class="text-left">Jenis Rekomendasi</th> --}}
+                        <th style="border: 1px solid black" class="text-left">UIC</th>
+                        {{-- <th style="border: 1px solid black" class="text-left">Tindak Lanjut Entitas</th> --}}
+                        <th style="border: 1px solid black">Status</th>
+                        <th style="border: 1px solid black" width="5%">Action</th>
+                    </thead>
+                    <tbody class="text-center">
+                        @forelse($lists as $list)
+                        <tr>
+                            {{-- <td>{{ $loop->iteration }}</td> --}}
+                            <td class="text-left">
+                                {{$list->tahun.'-'.$list->nomor_temuan.'-'.$list->kode_rekomendasi}}<br/><br/>
+                                {{$list->type->name}}
+                            </td>
+                            <td class="text-left">{{$list->judul}}</td>
+                            <td class="text-left">{{$list->uraian_rekomendasi}}</td>
+                            {{-- <td class="text-left">{{$list->type->name}}</td> --}}
+                            <td class="text-left">
+                                ES 1: {{$list->uic_es1}}<br/>
+                                ES 2: {{$list->uic_es2}}<br/>
+                                ES 3: {{$list->uic_es3}}
+                            </td>
+                            {{-- <td class="text-left" style="white-space:pre-wrap; word-wrap:break-word">{{$list->tinjut}}</td> --}}
+                            <td class="text-left">
+                                Aksi UIC: {{$list->statusUic->name}}<br/>
+                                Forum APK: {{$list->statusAPK->name}}<br/>
+                                Forum BPK: {{$list->forumBPK->name}}<br/>
+                                Akhir BPK: {{$list->statusBPK->name}}<br/>
+                                Approval: {{$list->approval ? 'Approved' : 'Pending'}}<br/>
+                            </td>
+                            <td style="text-align: center;">
+                                <button wire:click="show({{ $list->id }})" class="btn btn-sm btn-info" style="width:auto; margin: 2px"><i class="fas fa-eye"></i></button>
+                            </td>
+                        </tr>
+                        @empty
+                        <tr><td colspan="6">No Data Recorded</td></tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+            @if($lists->hasPages())
+                {{ $lists->links() }}
+            @endif
+            @endif
+        </div>
+    </div>
+    @else
+    <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-6">
+                    <p style="font-size: 24px;">Data Pemeriksaan Anda</p>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
                 <div class="col-lg-8">
                     <h3>Detail Temuan</h3>
                     <div class="row">
@@ -169,85 +296,41 @@
                             {{ $temuanTinjut->approval==1 ? 'Approved' : 'Pending' }}
                         </div>
                     </div>
-                    <br/>
-                    @foreach ($temuanTinjut->data as $tt)
-                        <!-- timeline time label -->
-                        <div class="time-label">
-                            <span class="bg-blue">{{date('d M Y', strtotime($tt->created_at))}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="display: block;">
+    @foreach ($temuanTinjut->data as $tt)
+        <br/>
+        <button type="button" style="margin-top: 10px" wire:click.prevent="switchCheck({{$tt->id}})" class="btn btn-success">{{$tt->created_at}}</button>
+        @if($checkOpen[$tt->id])
+        <div class="card" style="margin-top: 10px">
+            <div class="card-body">
+                <div>
+                    <div class="timeline-item">
+                        <div class="timeline-body">
+                            <p>Creator: <b>{{ $tt->creator->name }}</b></p>
+                            <p style="white-space:pre-wrap; word-wrap:break-word">Uraian: <br>{{$tt->uraian }} </p>
+                            <p style="white-space:pre-wrap; word-wrap:break-word">Keterangan: <br>{{$tt->keterangan }} </p>
+                            <p style="white-space:pre-wrap; word-wrap:break-word">Catatan: <br>{{$tt->catatan }} </p>
+                            <p>File:
+                                @forelse($tt->file as $f)
+                                    <br/>
+                                    <a href={{$f->file}} target="_blank">{{ $f->name }}</a>
+                                @empty
+                                    -
+                                @endforelse
+                            </p>
                         </div>
-                        <!-- /.timeline-label -->
-                        <!-- timeline item -->
-                        <div>
-                            <div class="timeline-item">
-                                <div class="timeline-body">
-                                    <p>Creator: <b>{{ $tt->creator->name }}</b></p>
-                                    <p style="white-space:pre-wrap; word-wrap:break-word">Uraian: <br>{{$tt->uraian }} </p>
-                                    <p style="white-space:pre-wrap; word-wrap:break-word">Keterangan: <br>{{$tt->keterangan }} </p>
-                                    <p style="white-space:pre-wrap; word-wrap:break-word">Catatan: <br>{{$tt->catatan }} </p>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- END timeline item -->
-                    @endforeach
-                    <div>
-                        <i class="fas fa-clock bg-gray"></i>
                     </div>
                 </div>
             </div>
-            @else
-            <div class="table-responsive">
-                <table class="table table-striped table-bordered table-hover">
-                    <thead class="text-center" >
-                        {{-- <th>No</th> --}}
-                        <th style="border: 1px solid black" class="text-left">ID Temuan</th>
-                        <th style="border: 1px solid black" class="text-left">Judul</th>
-                        <th style="border: 1px solid black" class="text-left">Uraian Rekomendasi</th>
-                        {{-- <th style="border: 1px solid black" class="text-left">Jenis Rekomendasi</th> --}}
-                        <th style="border: 1px solid black" class="text-left">UIC</th>
-                        {{-- <th style="border: 1px solid black" class="text-left">Tindak Lanjut Entitas</th> --}}
-                        <th style="border: 1px solid black">Status</th>
-                        <th style="border: 1px solid black" width="5%">Action</th>
-                    </thead>
-                    <tbody class="text-center">
-                        @forelse($lists as $list)
-                        <tr>
-                            {{-- <td>{{ $loop->iteration }}</td> --}}
-                            <td class="text-left">
-                                {{$list->tahun.'-'.$list->nomor_temuan.'-'.$list->kode_rekomendasi}}<br/><br/>
-                                {{$list->type->name}}
-                            </td>
-                            <td class="text-left">{{$list->judul}}</td>
-                            <td class="text-left">{{$list->uraian_rekomendasi}}</td>
-                            {{-- <td class="text-left">{{$list->type->name}}</td> --}}
-                            <td class="text-left">
-                                ES 1: {{$list->uic_es1}}<br/>
-                                ES 2: {{$list->uic_es2}}<br/>
-                                ES 3: {{$list->uic_es3}}
-                            </td>
-                            {{-- <td class="text-left" style="white-space:pre-wrap; word-wrap:break-word">{{$list->tinjut}}</td> --}}
-                            <td class="text-left">
-                                Aksi UIC: {{$list->statusUic->name}}<br/>
-                                Forum APK: {{$list->statusAPK->name}}<br/>
-                                Forum BPK: {{$list->forumBPK->name}}<br/>
-                                Akhir BPK: {{$list->statusBPK->name}}<br/>
-                                Approval: {{$list->approval ? 'Approved' : 'Pending'}}<br/>
-                            </td>
-                            <td style="text-align: center;">
-                                <button wire:click="show({{ $list->id }})" class="btn btn-sm btn-info" style="width:auto; margin: 2px"><i class="fas fa-eye"></i></button>
-                            </td>
-                        </tr>
-                        @empty
-                        <tr><td colspan="6">No Data Recorded</td></tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
-            @if($lists->hasPages())
-                {{ $lists->links() }}
-            @endif
-            @endif
         </div>
+        @endif
+    @endforeach
     </div>
+    @endif
 </div>
 @endif
 </section>
