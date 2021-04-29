@@ -164,6 +164,6 @@ class Pengaduan extends Component
         $this->alert('success', 'Data berhasil disimpan');
 
         // Reset input fields for next input
-        $this->resetInputFields();
+        $this->resetForm();
     }
 }
