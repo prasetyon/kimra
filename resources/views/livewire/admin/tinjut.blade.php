@@ -299,6 +299,18 @@
                             <div class="col-lg-9">
                                 {{ $temuanTinjut->approval==1 ? 'Approved' : 'Pending' }}
                             </div>
+                            <div class="col-lg-3">
+                                <b>Created</b>
+                            </div>
+                            <div class="col-lg-9">
+                                {{ $temuanTinjut->created_at.' by '.$temuanTinjut->creator->name}}
+                            </div>
+                            <div class="col-lg-3">
+                                <b>Last Update</b>
+                            </div>
+                            <div class="col-lg-9">
+                                {{ $temuanTinjut->updated_at.' by '.$temuanTinjut->updater->name}}
+                            </div>
                         </div>
                     </div>
                 </div>
