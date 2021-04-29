@@ -48,7 +48,7 @@ class Pengaduan extends Component
     {
         $this->reset([
             'judul', 'tanggal', 'laporan', 'type',
-            'aduan_id', 'tanggapan'
+            'tanggapan'
         ]);
     }
 

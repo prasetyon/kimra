@@ -109,7 +109,10 @@ class AparatPemeriksa extends Component
 
         $update = TemuanTinjut::where('id', $this->input_id)
             ->update([
-                'updated_by' => Auth::id()
+                'updated_by' => Auth::id(),
+                'tinjut' => $this->tinjut,
+                'keterangan' => $this->keterangan,
+                'catatan' => $this->catatan,
             ]);
 
         $id = $data->id;

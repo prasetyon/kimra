@@ -266,6 +266,24 @@
                             {{ $temuanTinjut->aparat_pemeriksa_lainnya ?? "-" }}
                         </div>
                         <div class="col-lg-3">
+                            <b>Uraian Tindak Lanjut</b>
+                        </div>
+                        <div class="col-lg-9">
+                            <p style="white-space:pre-wrap; word-wrap:break-word">{{ $temuanTinjut->tinjut ?? "-" }}</p>
+                        </div>
+                        <div class="col-lg-3">
+                            <b>Keterangan Tindak Lanjut</b>
+                        </div>
+                        <div class="col-lg-9">
+                            <p style="white-space:pre-wrap; word-wrap:break-word">{{ $temuanTinjut->keterangan ?? "-" }}</p>
+                        </div>
+                        <div class="col-lg-3">
+                            <b>Catatan Tindak Lanjut</b>
+                        </div>
+                        <div class="col-lg-9">
+                            <p style="white-space:pre-wrap; word-wrap:break-word">{{ $temuanTinjut->catatan ?? "-" }}</p>
+                        </div>
+                        <div class="col-lg-3">
                             <b>Status UIC</b>
                         </div>
                         <div class="col-lg-9">
@@ -294,6 +312,18 @@
                         </div>
                         <div class="col-lg-9">
                             {{ $temuanTinjut->approval==1 ? 'Approved' : 'Pending' }}
+                        </div>
+                        <div class="col-lg-3">
+                            <b>Created</b>
+                        </div>
+                        <div class="col-lg-9">
+                            {{ $temuanTinjut->created_at.' by '.$temuanTinjut->creator->name}}
+                        </div>
+                        <div class="col-lg-3">
+                            <b>Last Update</b>
+                        </div>
+                        <div class="col-lg-9">
+                            {{ $temuanTinjut->updated_at.' by '.$temuanTinjut->updater->name}}
                         </div>
                     </div>
                 </div>

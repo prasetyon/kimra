@@ -252,6 +252,24 @@
                                 {{ $temuanTinjut->aparat_pemeriksa_lainnya ?? "-" }}
                             </div>
                             <div class="col-lg-3">
+                                <b>Uraian Tindak Lanjut</b>
+                            </div>
+                            <div class="col-lg-9">
+                                {{ $temuanTinjut->tinjut ?? "-" }}
+                            </div>
+                            <div class="col-lg-3">
+                                <b>Keterangan Tindak Lanjut</b>
+                            </div>
+                            <div class="col-lg-9">
+                                {{ $temuanTinjut->keterangan ?? "-" }}
+                            </div>
+                            <div class="col-lg-3">
+                                <b>Catatan Tindak Lanjut</b>
+                            </div>
+                            <div class="col-lg-9">
+                                {{ $temuanTinjut->catatan ?? "-" }}
+                            </div>
+                            <div class="col-lg-3">
                                 <b>Status UIC</b>
                             </div>
                             <div class="col-lg-9">
