@@ -118,6 +118,7 @@ class Tinjut extends Component
             'input_judul' => 'required|string',
             'input_kode_rekomendasi' => 'required|string',
             'input_jenis_pemeriksaan' => 'required',
+            'input_aparat_pemeriksa' => 'required',
         ], $messages);
 
         // Insert or Update if Ok

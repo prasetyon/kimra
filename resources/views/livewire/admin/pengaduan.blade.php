@@ -211,7 +211,9 @@
                                 <td class="text-left" style="white-space:pre-wrap; word-wrap:break-word">{{ $list->laporan }}</td>
                                 <td class="text-left">{{ $list->status }}</td>
                                 <td style="text-align: center; width:10%;">
+                                    @if(stripos($list->status, 'on progress')!==false)
                                     <button wire:click="openTimeline({{ $list->id }})" title="Lihat Timeline" class="btn btn-sm btn-primary" style="width:auto; margin: 2px"><i class="fas fa-comments"></i></button>
+                                    @endif
 
                                     @if(($loggedUser->role == 'admin' || $loggedUser->role == 'superuser') && stripos($list->status, 'selesai') === false)
                                         <button wire:click="approve({{ $list->id }}, '{{ $list->status }}')" title="Approve" class="btn btn-sm btn-success" style="width:auto; margin: 2px" onclick="confirm('Are you sure to update status?') || event.stopImmediatePropagation()"><i class="fas fa-check"></i></button>

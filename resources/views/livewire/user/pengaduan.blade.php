@@ -186,7 +186,9 @@
                                 <td class="text-left" style="white-space:pre-wrap; word-wrap:break-word">{!! $list->laporan !!}</td>
                                 <td class="text-left">{{$list->status}}</td>
                                 <td>
+                                    @if(stripos($list->status, 'on progress')!==false)
                                     <button wire:click="openTimeline({{ $list->id }})" class="btn btn-sm btn-info"><i class="fas fa-eye"></i></button>
+                                    @endif
                                 </td>
                             </tr>
                             @empty
